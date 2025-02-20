@@ -1,0 +1,111 @@
+{% include 'parts/header.html.twig' %}
+<div id="controls" class="container-fluid card card-body p-3 my-4 rounded-top-3">
+    <div class="filter-wrapper">
+        <div>
+            <h4 style="margin-left: 0px" id="player-count">0 Players</h4>
+            <div id="players">
+                {% set allplayers = '' %}
+                {% for player in players %}
+                    {% set allplayers = allplayers ~ player.name ~ '|' %}
+                    <span class="tooltips" title="{{ player.name }}">
+                        <img class="avatar-lg" src="{{ player.avatar_url }}" alt={{ player.name }}></img>
+                        <input type="checkbox" class="filter-checkbox player" data-value="{{ player.name|lower }}" value="{{ player.name }}"/>
+                    </span>
+                {% endfor %}
+                <span id="player-list" style="display:none;">{{ allplayers|trim('|', 'right') }}</span>
+            </div>
+        </div>
+
+        <div>
+            <div class="genre-clear">
+                <h4>Genres</h4> 
+                <button class="btn btn-sm" href="javascript:void(0)" id="clear-genres"><i class="fa-solid fa-square-xmark"></i> Deselect All</button>
+            </div>
+            <div id="genres">
+                {% set allgenres = '' %}
+                {% for genre in genres %}
+                    {% set allgenres = allgenres ~ genre.name ~ '|' %}
+                    <span>
+                        <input type="checkbox" class="filter-checkbox genre" data-value="{{ genre.name|lower }}" value="{{ genre.name }}" checked/>{{ genre.name }}
+                    </span>
+                {% endfor %}
+                <span id="genre-list" style="display:none;">{{ allgenres|trim('|', 'right') }}</span>
+            </div>
+        </div>
+
+        <div>
+            <h4>Modes</h4>
+            <div id="modes">
+                {% set allmodes = '' %}
+                {% for mode in modes %}
+                    {% set allmodes = allmodes ~ mode.name ~ '|' %}
+                    <span>
+                        <input type="checkbox" class="filter-checkbox mode" data-value="{{ mode.name|lower }}" value="{{ mode.name }}" checked/>{{ mode.name }}
+                    </span>
+                {% endfor %}
+                <span id="mode-list" style="display:none;">{{ allmodes|trim('|', 'right') }}</span>
+            </div>
+        </div>
+        <div>
+            <h4>Settings</h4> 
+            <small>Select Players First</small>
+            <div id="settings">
+                <span>
+                    <input type="checkbox" class="filter-checkbox settings tooltips" id="free-games" data-value="free" value="free" disabled title="Include games that are free to play" checked>Free
+                </span>
+                <span>
+                    <input type="checkbox" class="filter-checkbox settings tooltips" id="remote-play" data-value="remote" value="remote" disabled title="Include games that not all players own but are playable via Remote Play Together. It will also show games not owned by any current player" checked>Remote Play
+                </span>
+                <span>
+                    <input type="checkbox" class="filter-checkbox settings tooltips" id="jackboxgames" data-value="jackbox" value="jackbox" disabled title="Include JackBox Party Packs. They will show regarldess of if any current player owns any. It may not show correctly when only 1 player is selected" checked>Jackbox Party Packs
+                </span>
+            </div>
+            
+        </div>
+    </div>
+    <div class="flex-spacing pt-2">
+        <span></span>
+        <button class="glow-on-hover" href="javascript:void(0)" id="random"><i class="fa-solid fa-dice"></i> Get Random Game</button>
+        <h3 style="text-align:left;" id="game-count">0 Games</h3>
+    </div>
+    <div id="randomizer" align="center" style="position: relative;"> 
+        <img id="marker" src="/assets/img/marker.png"/>
+        <canvas id="canvas" width="1000" height="1000" data-responsiveMinWidth="180" data-responsiveScaleHeight="true" onClick="startSpin();">
+            <p align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+        </canvas>
+        <audio controls="controls" id="applause" src="/assets/audio/applause.mp3" type="audio/mp3"></audio>
+    </div>
+</div>
+<div id="content" class="container-fluid card card-body p-1 my-2 rounded-bottom-3">
+    <div class="table-responsive table-borderless">
+        <table id="games" class="table games stripe rounded-3" style="width:100%">
+            <thead class="thead">
+                <tr>
+                    <th>Game</th>
+                    <th>Owned By</th>
+                    <th>Platforms</th>
+                    <th>Genre</th>
+                    <th>Mode</th>
+                    <th class="tooltips" title="Min Players"><i class="fa-solid fa-user-minus"></i></th>
+                    <th class="tooltips" title="Max Players"><i class="fa-solid fa-user-plus"></i></th>
+                    <th>Free</th>
+                    <th class="tooltips" title="Remote Play Together">Remote</th>
+                </tr>
+            </thead>
+            <tfoot class="tfoot">
+                <tr>
+                    <th>Game</th>
+                    <th>Owned By</th>
+                    <th>Platforms</th>
+                    <th>Genre</th>
+                    <th>Mode</th>
+                    <th class="tooltips" title="Min Players"><i class="fa-solid fa-user-minus"></i></th>
+                    <th class="tooltips" title="Max Players"><i class="fa-solid fa-user-plus"></i></th>
+                    <th>Free</th>
+                    <th class="tooltips" title="Remote Play Together">Remote</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>    
+{% include 'parts/footer.html.twig' %}

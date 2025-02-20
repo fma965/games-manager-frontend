@@ -25,17 +25,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
+
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest .
+          docker build -t ghcr.io/${{ OWNER_LC }}/${{ github.event.repository.name }}:latest .
 
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          docker push ghcr.io/${{ OWNER_LC }}/${{ github.event.repository.name }}:latest
 
       - name: Tag and Push versioned image (if tagged)
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           TAG=${GITHUB_REF#refs/tags/}
-          docker tag ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TAG
-          docker push ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$TAG
+          docker tag ghcr.io/${{ OWNER_LC }}/${{ github.event.repository.name }}:latest ghcr.io/${{ OWNER_LC }}/${{ github.event.repository.name }}:$TAG
+          docker push ghcr.io/${{ OWNER_LC }}/${{ github.event.repository.name }}:$TAG

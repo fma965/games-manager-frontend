@@ -10,4 +10,3 @@ Directus Backend
 | APP_BACKEND                   | yes      | string | -       | The URL to the backend service (Directus)                                                                                                                  |
 | APP_BACKEND_AUTH                 | yes      | string | -       | The Bearer token for the Directus user, format `Bearer xxxxxxxxxxxxxxxxxxxx`             
 | DEBUG                 | no      | bool | -       | Enables PHP debug logging             
-

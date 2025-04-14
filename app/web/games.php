@@ -2,7 +2,7 @@
     require_once '/app/inc/config.php';
     require_once '/app/inc/functions.php'; 
 
-    $url = BACKEND . "/items/games?fields=*.*.id,*.*.name,*.*.avatar_url&limit=-1";			
+    $url = BACKEND . "/items/games?fields=*.*.id,*.*.name,*.players_id.avatar_url&limit=-1";		
     $json = get_data($url,BACKEND_AUTH);
     $all_players[] = ["id"=>999, "name"=>"Free", "avatar_url"=>""];
     

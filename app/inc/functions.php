@@ -38,4 +38,9 @@
 		$json = get_data($url,BACKEND_AUTH);
 		return $json['data'];
 	}
+
+	function LoggedIn() {
+		if(isset($_SESSION['logged_in'])) return $_SESSION['logged_in'];
+		return false;
+	}
 ?>

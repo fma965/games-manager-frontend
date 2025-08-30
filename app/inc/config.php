@@ -8,8 +8,8 @@
 	define('HOST', 	 		getenv('APP_HOST'));
 	define('BACKEND',		getenv('APP_BACKEND'));
 	define('BACKEND_AUTH',	getenv('APP_BACKEND_AUTH'));
-    define('DISCORD_CLIENT_ID', '1023626245856047184');
-    define('DISCORD_CLIENT_SECRET', 'DTTQ2cS_idSjjBw-zy2FyWJeu6I9qt97');
+	define('DISCORD_CLIENT_ID',  getenv('DISCORD_CLIENT_ID'));
+    define('DISCORD_CLIENT_SECRET', getenv('DISCORD_CLIENT_SECRET'));
 	// Debug
 	if(getenv('DEBUG')) {
 		ini_set('display_errors', 1);

@@ -1,9 +1,7 @@
 <?php
     require_once 'init.php';
     
-    if(isset($_GET['code'])) {
-        header("Location: /");
-    } else {
+    if(!isset($_GET['code'])) {
         header("Location: https://discord.com/api/oauth2/authorize?client_id=".DISCORD_CLIENT_ID."&redirect_uri=" . urlencode(HOST . "/login.php"). "&response_type=code&scope=identify");
         exit; 
     }
@@ -56,6 +54,8 @@
             'discord_id'=>$result['id'],
             'avatar'=>$result['avatar']
         ];
+
+        header("Location: /");
     } else {
         exit;
     }

@@ -8,6 +8,9 @@
 
     $twig->addGlobal('backend', BACKEND);
 
+    $version = @file_get_contents('/app/VERSION');
+    $twig->addGlobal('version', $version !== false ? trim($version) : 'dev');
+
     session_start();
 
     $script_name = basename($_SERVER['PHP_SELF']);

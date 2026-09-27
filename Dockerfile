@@ -1,4 +1,4 @@
-FROM serversideup/php:8.3-fpm-nginx-alpine
+FROM serversideup/php:8.5-fpm-nginx-alpine
 
 LABEL maintainer="Fma965" \
     description="nginx php-8 games-manager-frontend"

@@ -5,6 +5,8 @@ LABEL maintainer="Fma965" \
 
 ENV NGINX_WEBROOT='/app/web'
 
+ARG APP_VERSION=dev
+
 # UID/GID for www-data, matching the Kubernetes pod securityContext (runAsUser/runAsGroup)
 ARG USER_ID=1000
 ARG GROUP_ID=1000
@@ -16,6 +18,7 @@ RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID && \
     docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
 
 COPY /app/ /app/
+RUN echo "$APP_VERSION" > /app/VERSION
 COPY vhost-common.conf /etc/nginx/server-opts.d/10-general.conf
 
 RUN composer install -d /app

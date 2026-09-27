@@ -1,11 +1,25 @@
-FROM webdevops/php-nginx:8.3-alpine
+FROM serversideup/php:8.3-fpm-nginx-alpine
 
 LABEL maintainer="Fma965" \
     description="nginx php-8 games-manager-frontend"
 
-ENV WEB_DOCUMENT_ROOT='/app/web'
+ENV NGINX_WEBROOT='/app/web'
+
+# UID/GID for www-data, matching the Kubernetes pod securityContext (runAsUser/runAsGroup)
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+# Build steps need root; the container itself runs as www-data
+USER root
+
+RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID && \
+    docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
 
 COPY /app/ /app/
-COPY vhost-common.conf /opt/docker/etc/nginx/vhost.common.d/10-general.conf
+COPY vhost-common.conf /etc/nginx/server-opts.d/10-general.conf
 
 RUN composer install -d /app
+
+USER www-data
+
+EXPOSE 8080
